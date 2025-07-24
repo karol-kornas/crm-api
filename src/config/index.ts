@@ -1,0 +1,9 @@
+export const ROLES = ["user", "client", "admin"] as const;
+export type Role = (typeof ROLES)[number];
+export const MAX_LOGIN_ATTEMPTS = 5;
+export const ACCOUNT_LOCK_MINUTES = 15;
+export const MAIL_FROM = '"CRM App" <no-reply@example.com>';
+export const VERIFICATION_TOKEN_EXPIRATION_MS = Number(process.env.VERIFICATION_TOKEN_EXPIRATION_MS) || 1000 * 60 * 60; // default 1h
+export const JWT_SECRET = process.env.JWT_SECRET || "default_jwt_secret";
+export const JWT_EXPIRES_IN = "15m";
+export const REFRESH_TOKEN_EXPIRATION_MS = Number(process.env.REFRESH_TOKEN_EXPIRATION_MS) || 7 * 24 * 60 * 60 * 1000; // default 7d
