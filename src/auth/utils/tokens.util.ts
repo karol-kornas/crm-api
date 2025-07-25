@@ -13,3 +13,10 @@ export const generateRefreshToken = () => {
   const expires = new Date(Date.now() + REFRESH_TOKEN_EXPIRATION_MS); // 7d
   return { token, expires };
 };
+
+export const generateResetPasswordToken = () => {
+  const token = crypto.randomBytes(32).toString("hex");
+  const expires = new Date(Date.now() + VERIFICATION_TOKEN_EXPIRATION_MS); // 1h
+
+  return { token, expires };
+};

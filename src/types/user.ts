@@ -12,6 +12,9 @@ export interface IUser extends Document {
   is_verified: boolean;
   verification_token?: string;
   verification_token_expires?: Date;
+  reset_password_token?: string;
+  reset_password_token_expires?: Date;
+  last_password_reset_requested_at?: Date;
   last_login_at?: Date;
   created_at: Date;
   updated_at: Date;

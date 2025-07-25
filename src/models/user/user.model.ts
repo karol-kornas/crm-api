@@ -52,6 +52,15 @@ const userSchemaFields = {
   verification_token_expires: {
     type: Date,
   },
+  reset_password_token: {
+    type: String,
+  },
+  reset_password_token_expires: {
+    type: Date,
+  },
+  last_password_reset_requested_at: {
+    type: Date,
+  },
   last_login_at: {
     type: Date,
   },

@@ -7,3 +7,4 @@ export const VERIFICATION_TOKEN_EXPIRATION_MS = Number(process.env.VERIFICATION_
 export const JWT_SECRET = process.env.JWT_SECRET || "default_jwt_secret";
 export const JWT_EXPIRES_IN = "15m";
 export const REFRESH_TOKEN_EXPIRATION_MS = Number(process.env.REFRESH_TOKEN_EXPIRATION_MS) || 7 * 24 * 60 * 60 * 1000; // default 7d
+export const REQUEST_PASSWORD_RESET_LOCK_MINUTES = 15;

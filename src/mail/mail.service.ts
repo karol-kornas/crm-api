@@ -85,3 +85,26 @@ export const sendVerificationEmail = async (user: IUser) => {
     console.error("Failed send e-mail:", err);
   }
 };
+
+export const sendResetPasswordEmail = async (user: IUser) => {
+  const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${user.reset_password_token}`;
+
+  const html = `
+  <p>Cześć ${user.first_name},</p>
+  <p>Otrzymaliśmy prośbę o zresetowanie hasła do Twojego konta.</p>
+  <p>Kliknij w link poniżej, aby ustawić nowe hasło:</p>
+  <p><a href="${resetUrl}">Zresetuj hasło</a></p>
+  <p>Link wygaśnie za 1 godzinę.</p>
+  <p>Jeśli to nie Ty wysłałeś tę prośbę, zignoruj tę wiadomość.</p>
+`;
+  try {
+    await sendMail({
+      to: user.email,
+      html,
+      subject: "Otrzymaliśmy prośbę o zresetowanie hasła do Twojego konta",
+      text: "Ustaw nowe hasło klikając w ten link: " + resetUrl,
+    });
+  } catch (err) {
+    console.error("Failed send e-mail:", err);
+  }
+};

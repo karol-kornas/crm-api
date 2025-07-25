@@ -9,13 +9,13 @@ export const validate = (schema: ZodObject<ZodRawShape>) => (req: Request, res: 
     if (err instanceof ZodError) {
       return res.status(400).json({
         success: false,
-        messageKey: "validation.failed",
+        message: "validation.failed",
         errors: err.issues,
       });
     }
     return res.status(500).json({
       success: false,
-      messageKey: "internal.error",
+      message: "internal.error",
     });
   }
 };

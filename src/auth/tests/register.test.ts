@@ -12,4 +12,15 @@ describe("POST api/auth/register", () => {
     expect(res.body.data.email).toBe("test@example.com");
     expect(res.body.data.is_verified).toBe(false);
   });
+  it("should return 409 when email already exists", async () => {
+    const res = await registerTestUser();
+
+    expect(res.statusCode).toBe(201);
+    expect(res.body.success).toBe(true);
+
+    const resSecond = await registerTestUser();
+
+    expect(resSecond.statusCode).toBe(409);
+    expect(resSecond.body.success).toBe(false);
+  });
 });

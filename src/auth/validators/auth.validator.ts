@@ -14,3 +14,12 @@ export const loginSchema = z.object({
   email: emailSchema,
   password: requiredSchema,
 });
+
+export const requestPasswordResetSchema = z.object({
+  email: emailSchema,
+});
+
+export const resetPasswordSchema = z.object({
+  token: requiredSchema,
+  password: passwordSchema,
+});

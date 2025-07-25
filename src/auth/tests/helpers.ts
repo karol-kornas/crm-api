@@ -42,6 +42,27 @@ export async function logoutTestUser(cookies?: string[]) {
   return req;
 }
 
+export async function refreshTokenTestUser(cookies?: string[]) {
+  const req = request(app).post("/api/auth/refresh-token");
+  if (cookies) req.set("Cookie", cookies);
+  return req;
+}
+
+export async function requestPasswordReset(email: string) {
+  const res = request(app).post("/api/auth/request-password-reset").send({
+    email,
+  });
+  return res;
+}
+
+export async function resetPassword(token: string, password: string) {
+  const res = request(app).post("/api/auth/reset-password").send({
+    token,
+    password,
+  });
+  return res;
+}
+
 export function printResponse(res: request.Response) {
   console.log("STATUS:", res.statusCode);
   console.log("BODY:", JSON.stringify(res.body, null, 2));

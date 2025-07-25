@@ -1,4 +1,4 @@
-import { MAX_LOGIN_ATTEMPTS } from "@/config";
+import { ACCOUNT_LOCK_MINUTES, MAX_LOGIN_ATTEMPTS } from "@/config";
 import { loginTestUser, registerTestUser, verifyEmailTestUser } from "./helpers";
 import { advanceBy, clear } from "jest-date-mock";
 
@@ -71,7 +71,7 @@ describe("POST api/auth/login", () => {
     expect(resBlocked.body.success).toBe(false);
     expect(resBlocked.statusCode).toBe(403);
 
-    advanceBy(16 * 60 * 1000); // 16min
+    advanceBy(ACCOUNT_LOCK_MINUTES * 60 * 1000 + 1000);
 
     const { res: resLoginAfter } = await loginTestUser();
 
