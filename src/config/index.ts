@@ -1,5 +1,3 @@
-export const ROLES = ["user", "client", "admin"] as const;
-export type Role = (typeof ROLES)[number];
 export const MAX_LOGIN_ATTEMPTS = 5;
 export const ACCOUNT_LOCK_MINUTES = 15;
 export const MAIL_FROM = '"CRM App" <no-reply@example.com>';

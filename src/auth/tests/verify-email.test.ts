@@ -16,7 +16,7 @@ describe("GET api/auth/verify-email", () => {
 
   it("should return 401 if token is invalid", async () => {
     const invalidToken = "invalid-token";
-    const res = await verifyEmailTestUser(invalidToken);
+    const res = await verifyEmailTestUser("client", invalidToken);
 
     expect(res.statusCode).toBe(401);
     expect(res.body.success).toBe(false);
@@ -29,7 +29,7 @@ describe("GET api/auth/verify-email", () => {
 
     const firstResToken = firstRes.body.data.verification_token;
 
-    const secondRes = await verifyEmailTestUser(firstResToken, false);
+    const secondRes = await verifyEmailTestUser("client", firstResToken, false);
     expect(secondRes.statusCode).toBe(401);
     expect(secondRes.body.success).toBe(false);
     expect(secondRes.body.message).toBe(messageKeys.TOKEN.INVALID);

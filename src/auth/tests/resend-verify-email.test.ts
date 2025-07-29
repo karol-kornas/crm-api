@@ -17,7 +17,7 @@ describe("GET api/auth/resend-verify-email", () => {
 
     const token = resendVerifyRes.body.data?.verification_token;
     expect(token).toBeTruthy();
-    const verifyRes = await verifyEmailTestUser(token!, false);
+    const verifyRes = await verifyEmailTestUser("client", token!, false);
     expect(verifyRes.statusCode).toBe(200);
     expect(verifyRes.body.success).toBe(true);
 

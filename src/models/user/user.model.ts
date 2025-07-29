@@ -1,10 +1,10 @@
 import { Schema, model } from "mongoose";
-import { ROLES } from "@/config";
 import { userMethods } from "./methods";
 import { userStatics } from "./statics";
 import { userVirtuals } from "./virtuals";
 import { userPreHooks } from "./preHooks";
 import { IUser, IUserModel } from "@/types/user";
+import { ROLES, USER_POSITION } from "@/constants/enums";
 
 const userSchemaFields = {
   first_name: {
@@ -74,7 +74,12 @@ const userSchemaFields = {
   role: {
     type: String,
     enum: ROLES,
-    default: "user",
+    default: ROLES[0],
+  },
+  position: {
+    type: String,
+    enum: USER_POSITION,
+    default: USER_POSITION[0],
   },
   refresh_tokens: [
     {

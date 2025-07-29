@@ -1,4 +1,10 @@
 export const messageKeys = {
+  INTERNAL_ERROR: "internal_error",
+  UNAUTHORIZED: "unauthorized",
+  INSUFFICIENT_ROLE: "insufficient_role",
+  VALIDATE: {
+    FAILED: "validate.failed",
+  },
   TOKEN: {
     MISSING: "token.missing",
     INVALID: "token.invalid",
@@ -45,6 +51,26 @@ export const messageKeys = {
     LOGOUT: {
       SUCCESS: "auth.logout.success",
       FAILED: "auth.logout.failed",
+    },
+  },
+  PROJECT: {
+    NOT_FOUND: "project.not_found",
+    SLUG_REQUIRED: "project.slug_required",
+    CREATE: {
+      SUCCESS: "project.create.success",
+      FAILED: "project.create.failed",
+      NAME_ALREADY_EXISTS: "project.name_already_exists",
+      NAME_REQUIRED: "project.name_required",
+    },
+    UPDATE: {
+      SUCCESS: "project.update.success",
+      FAILED: "project.update.failed",
+    },
+    PERMISSION: {
+      INVALID_REQUEST: "project.permission.invalid_request",
+      NOT_A_MEMBER: "project.permission.not_a_member",
+      FORBIDDEN: "project.permission.forbidden",
+      FORBIDDEN_MODIFY_FIELDS: "forbidden_modify_fields",
     },
   },
 } as const;

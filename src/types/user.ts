@@ -1,5 +1,5 @@
 import { Document, Model } from "mongoose";
-import { Role } from "@/config";
+import { Role, UserPosition } from "@/constants/enums";
 
 export interface IUser extends Document {
   first_name: string;
@@ -20,7 +20,8 @@ export interface IUser extends Document {
   updated_at: Date;
   login_attempts: number;
   locked_until?: Date;
-  role: Role;
+  role?: Role;
+  position?: UserPosition;
   refresh_tokens: {
     token: string;
     expires_at: Date;

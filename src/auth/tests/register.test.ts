@@ -9,7 +9,7 @@ describe("POST api/auth/register", () => {
     expect(res.statusCode).toBe(201);
     expect(res.body.success).toBe(true);
     expect(res.body.data.verification_token).toBeTruthy();
-    expect(res.body.data.email).toBe("test@example.com");
+    expect(res.body.data.email).toBe("test-client@example.com");
     expect(res.body.data.is_verified).toBe(false);
   });
   it("should return 409 when email already exists", async () => {

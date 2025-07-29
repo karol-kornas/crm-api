@@ -19,7 +19,7 @@ describe("POST api/auth/login", () => {
 
     expect(res.body.success).toBe(true);
 
-    const { res: resLogin } = await loginTestUser("test@example.com", "invalid_password");
+    const { res: resLogin } = await loginTestUser("test-client@example.com", "invalid_password");
 
     expect(resLogin.body.success).toBe(false);
     expect(resLogin.statusCode).toBe(401);
@@ -39,7 +39,7 @@ describe("POST api/auth/login", () => {
     expect(res.body.success).toBe(true);
 
     for (let i = 0; i <= MAX_LOGIN_ATTEMPTS; i++) {
-      await loginTestUser("test@example.com", "invalid_password");
+      await loginTestUser("test-client@example.com", "invalid_password");
     }
     const { res: resLogin } = await loginTestUser();
 
@@ -52,7 +52,7 @@ describe("POST api/auth/login", () => {
     expect(res.body.success).toBe(true);
 
     for (let i = 0; i <= 2; i++) {
-      await loginTestUser("test@example.com", "invalid_password");
+      await loginTestUser("test-client@example.com", "invalid_password");
     }
     const { res: resLogin } = await loginTestUser();
 
@@ -64,7 +64,7 @@ describe("POST api/auth/login", () => {
     expect(res.body.success).toBe(true);
 
     for (let i = 0; i <= MAX_LOGIN_ATTEMPTS; i++) {
-      await loginTestUser("test@example.com", "invalid_password");
+      await loginTestUser("test-client@example.com", "invalid_password");
     }
     const { res: resBlocked } = await loginTestUser();
 
