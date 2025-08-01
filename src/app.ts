@@ -1,16 +1,16 @@
 import "dotenv/config";
 import express from "express";
-import authRoutes from "./auth/routes/auth.routes";
+import authRoutes from "./modules/auth/routes/auth.route";
 import cookieParser from "cookie-parser";
-import { errorHandler } from "./middleware/errorHandler";
-import projectRoutes from "./project/routes/project.routes";
+import { errorHandler } from "./middleware/error-middleware";
+import projectsRoutes from "./modules/projects/routes/projects.route";
 
 const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
-app.use("/api/project", projectRoutes);
+app.use("/api/projects", projectsRoutes);
 app.use(errorHandler);
 
 export default app;

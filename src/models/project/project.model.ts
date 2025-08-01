@@ -1,6 +1,6 @@
 import { ICredential, IProject } from "@/types/project";
 import { Schema, model } from "mongoose";
-import { projectPreHooks } from "./preHooks";
+import { projectPreHooks } from "./pre-hooks";
 import { ENVIRONMENTS, PROJECT_STATUSES } from "@/constants/enums";
 import { projectVirtuals } from "./virtuals";
 

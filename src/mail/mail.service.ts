@@ -66,7 +66,7 @@ export const sendMail = async (options: SendMailOptions) => {
 };
 
 export const sendVerificationEmail = async (user: IUser) => {
-  const verifyUrl = `${process.env.FRONTEND_URL}/verify-email?token=${user.verification_token}`;
+  const verifyUrl = `${process.env.FRONTEND_URL}/verify-email?token=${user.email_verification_token}`;
 
   const html = `
     <p>Cześć ${user.first_name},</p>
@@ -87,7 +87,7 @@ export const sendVerificationEmail = async (user: IUser) => {
 };
 
 export const sendResetPasswordEmail = async (user: IUser) => {
-  const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${user.reset_password_token}`;
+  const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${user.password_reset_token}`;
 
   const html = `
   <p>Cześć ${user.first_name},</p>

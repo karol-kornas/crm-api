@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import { userMethods } from "./methods";
 import { userStatics } from "./statics";
 import { userVirtuals } from "./virtuals";
-import { userPreHooks } from "./preHooks";
+import { userPreHooks } from "./pre-hooks";
 import { IUser, IUserModel } from "@/types/user";
 import { ROLES, USER_POSITION } from "@/constants/enums";
 
@@ -46,16 +46,16 @@ const userSchemaFields = {
     type: Boolean,
     default: false,
   },
-  verification_token: {
+  email_verification_token: {
     type: String,
   },
-  verification_token_expires: {
+  email_verification_token_expires: {
     type: Date,
   },
-  reset_password_token: {
+  password_reset_token: {
     type: String,
   },
-  reset_password_token_expires: {
+  password_reset_token_expires: {
     type: Date,
   },
   last_password_reset_requested_at: {
@@ -83,7 +83,7 @@ const userSchemaFields = {
   },
   refresh_tokens: [
     {
-      token: { type: String, required: true },
+      refresh_token: { type: String, required: true },
       expires_at: { type: Date, required: true },
     },
   ],

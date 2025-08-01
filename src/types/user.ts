@@ -10,10 +10,10 @@ export interface IUser extends Document {
   password: string;
   is_active: boolean;
   is_verified: boolean;
-  verification_token?: string;
-  verification_token_expires?: Date;
-  reset_password_token?: string;
-  reset_password_token_expires?: Date;
+  email_verification_token?: string;
+  email_verification_token_expires?: Date;
+  password_reset_token?: string;
+  password_reset_token_expires?: Date;
   last_password_reset_requested_at?: Date;
   last_login_at?: Date;
   created_at: Date;
@@ -23,7 +23,7 @@ export interface IUser extends Document {
   role?: Role;
   position?: UserPosition;
   refresh_tokens: {
-    token: string;
+    refresh_token: string;
     expires_at: Date;
   }[];
   comparePassword(candidatePassword: string): Promise<boolean>;

@@ -1,5 +1,5 @@
 import { JWT_SECRET } from "@/config";
-import { messageKeys } from "@/config/messageKeys";
+import { messageKeys } from "@/config/message-keys";
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
