@@ -1,5 +1,5 @@
 import { USER_POSITION } from "@/constants/enums";
-import { IProjectMember } from "@/types/project";
+import { IProjectMember } from "@/types/projects/model.type";
 import { model, Schema } from "mongoose";
 
 const projectMemberSchemaFields = {

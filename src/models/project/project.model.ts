@@ -1,8 +1,8 @@
-import { ICredential, IProject } from "@/types/project";
 import { Schema, model } from "mongoose";
 import { projectPreHooks } from "./pre-hooks";
 import { ENVIRONMENTS, PROJECT_STATUSES } from "@/constants/enums";
 import { projectVirtuals } from "./virtuals";
+import { ICredential, IProject } from "@/types/projects/model.type";
 
 const CredentialSchema = new Schema<ICredential>(
   {

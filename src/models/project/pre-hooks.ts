@@ -1,5 +1,5 @@
+import { IProject } from "@/types/projects/model.type";
 import { encrypt } from "@/utils/encryption.util";
-import { IProject } from "@/types/project";
 import { Schema, HydratedDocument, Model } from "mongoose";
 import slugify from "slugify";
 

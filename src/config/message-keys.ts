@@ -95,4 +95,19 @@ export const messageKeys = {
       FAILED: "project_members.get.failed",
     },
   },
+  PROJECT_CREDENTIALS: {
+    ADD: {
+      SUCCESS: "project_credentials.add.success",
+      FAILED: "project_credentials.add.failed",
+    },
+    REMOVE: {
+      SUCCESS: "project_credentials.remove.success",
+      FAILED: "project_credentials.remove.failed",
+    },
+    UPDATE: {
+      SUCCESS: "project_credentials.update.success",
+      FAILED: "project_credentials.update.failed",
+    },
+    NOT_FOUND: "project_credentials.not_found",
+  },
 } as const;

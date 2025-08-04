@@ -3,7 +3,7 @@ import createError from "http-errors";
 import { messageKeys } from "@/config/message-keys";
 import { Project } from "@/models/project/project.model";
 import { ProjectMember } from "@/models/project/project-member.model";
-import { ProjectPermissions } from "@/types/project";
+import { ProjectPermissions } from "@/types/projects/shared.type";
 
 export const authorizeProjectPermission = (permissionKey?: keyof ProjectPermissions) => {
   return async (req: Request, res: Response, next: NextFunction) => {

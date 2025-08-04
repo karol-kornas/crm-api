@@ -1,7 +1,6 @@
 import { prepareUserWithRole } from "@/modules/auth/tests/helpers";
 import { createProject } from "./helpers";
 import { messageKeys } from "@/config/message-keys";
-import { IProject } from "@/types/project";
 import { ENVIRONMENTS, USER_POSITION } from "@/constants/enums";
 import { Project } from "@/models/project/project.model";
 
@@ -45,9 +44,11 @@ describe("POST api/projects/", () => {
 
   it("should return 400 if project name is not provided", async () => {
     const projectData = {
-      name: "",
-      description: "description project",
-      tags: ["CRM", "backend"],
+      projectData: {
+        name: "",
+        description: "description project",
+        tags: ["CRM", "backend"],
+      },
     };
 
     const resProject = await createProject(token, projectData);
@@ -60,15 +61,17 @@ describe("POST api/projects/", () => {
 
   it("should create new project with credentials", async () => {
     const projectData = {
-      name: "Test project",
-      description: "description project",
-      tags: ["CRM", "backend"],
-      credentials: [
-        {
-          name: "Data admin panel",
-          environment: ENVIRONMENTS[0],
-        },
-      ],
+      projectData: {
+        name: "Test project",
+        description: "description project",
+        tags: ["CRM", "backend"],
+        credentials: [
+          {
+            name: "Data admin panel",
+            environment: ENVIRONMENTS[0],
+          },
+        ],
+      },
     };
 
     const resProject = await createProject(token, projectData);
@@ -92,23 +95,25 @@ describe("POST api/projects/", () => {
 
   it("should create new project with members", async () => {
     const projectData = {
-      name: "Test project with members",
-      description: "description project",
-      deadline: "2030-09-30",
-      tags: ["CRM", "backend"],
-      members: [
-        {
-          userId: user2.userId,
-          position: USER_POSITION[0],
-          permissions: {
-            canEditProject: true,
+      projectData: {
+        name: "Test project with members",
+        description: "description project",
+        deadline: "2030-09-30",
+        tags: ["CRM", "backend"],
+        members: [
+          {
+            userId: user2.userId,
+            position: USER_POSITION[0],
+            permissions: {
+              canEditProject: true,
+            },
           },
-        },
-        {
-          userId: user3.userId,
-          position: USER_POSITION[1],
-        },
-      ],
+          {
+            userId: user3.userId,
+            position: USER_POSITION[1],
+          },
+        ],
+      },
     };
 
     const resProject = await createProject(token, projectData);
@@ -118,6 +123,5 @@ describe("POST api/projects/", () => {
     expect(resProject.statusCode).toBe(201);
     expect(resProject.body.success).toBe(true);
     expect(resProject.body.data.project.members).toBeTruthy();
-
   });
 });

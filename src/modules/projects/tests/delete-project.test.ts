@@ -1,9 +1,6 @@
 import { prepareUserWithRole } from "@/modules/auth/tests/helpers";
 import { createProject, deleteProject } from "./helpers";
-import { messageKeys } from "@/config/message-keys";
-import { IProject } from "@/types/project";
-import { ENVIRONMENTS, USER_POSITION } from "@/constants/enums";
-import { Project } from "@/models/project/project.model";
+import { USER_POSITION } from "@/constants/enums";
 
 jest.mock("@/mail/mail.service");
 
@@ -23,23 +20,25 @@ describe("DELETE api/projects/", () => {
 
   it("should create new project with members and delete all", async () => {
     const projectData = {
-      name: "Test project with members",
-      description: "description project",
-      deadline: "2030-09-30",
-      tags: ["CRM", "backend"],
-      members: [
-        {
-          userId: user2.userId,
-          position: USER_POSITION[0],
-          permissions: {
-            canEditProject: true,
+      projectData: {
+        name: "Test project with members",
+        description: "description project",
+        deadline: "2030-09-30",
+        tags: ["CRM", "backend"],
+        members: [
+          {
+            userId: user2.userId,
+            position: USER_POSITION[0],
+            permissions: {
+              canEditProject: true,
+            },
           },
-        },
-        {
-          userId: user3.userId,
-          position: USER_POSITION[1],
-        },
-      ],
+          {
+            userId: user3.userId,
+            position: USER_POSITION[1],
+          },
+        ],
+      },
     };
 
     const resProject = await createProject(token, projectData);
@@ -50,7 +49,7 @@ describe("DELETE api/projects/", () => {
     expect(resProject.body.success).toBe(true);
     expect(resProject.body.data.project.members).toBeTruthy();
 
-    const resDeletedProject = await deleteProject(token, 'test-project-with-members');
+    const resDeletedProject = await deleteProject(token, "test-project-with-members");
 
     expect(resDeletedProject.body.success).toBe(true);
     expect(resDeletedProject.statusCode).toBe(200);
