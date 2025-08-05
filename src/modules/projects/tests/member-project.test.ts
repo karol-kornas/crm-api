@@ -7,20 +7,20 @@ jest.mock("@/mail/mail.service");
 
 describe("api/projects/:slug/members", () => {
   let token: string;
-  let user1: { token: string; userId: string };
+  let projectOwner: { token: string; userId: string };
   let user2: { token: string; userId: string };
   let user3: { token: string; userId: string };
   let user4: { token: string; userId: string };
   let user5: { token: string; userId: string };
 
   beforeEach(async () => {
-    user1 = await prepareUserWithRole("user");
+    projectOwner = await prepareUserWithRole("user");
     user2 = await prepareUserWithRole("user", "2");
     user3 = await prepareUserWithRole("user", "3");
     user4 = await prepareUserWithRole("user", "4");
     user5 = await prepareUserWithRole("user", "5");
 
-    token = user1.token;
+    token = projectOwner.token;
   });
 
   it("should add member to project", async () => {

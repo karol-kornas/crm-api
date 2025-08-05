@@ -1,32 +1,59 @@
 import { prepareUserWithRole } from "@/modules/auth/tests/helpers";
 import { createProject, updateProject } from "./helpers";
-import { messageKeys } from "@/config/message-keys";
-import { ENVIRONMENTS, USER_POSITION } from "@/constants/enums";
-import { Project } from "@/models/project/project.model";
 
 jest.mock("@/mail/mail.service");
 
-describe("POST api/projects/", () => {
+describe("PATCH api/projects/:slug", () => {
   let token: string;
-  let user1: { token: string; userId: string };
-  let user2: { token: string; userId: string };
-  let user3: { token: string; userId: string };
+  let projectOwner: { token: string; userId: string };
+  let outsiderUser: { token: string; userId: string };
 
   beforeEach(async () => {
-    user1 = await prepareUserWithRole("user");
-    user2 = await prepareUserWithRole("user", "2");
-    user3 = await prepareUserWithRole("user", "3");
+    projectOwner = await prepareUserWithRole("user");
+    outsiderUser = await prepareUserWithRole("user", "2");
 
-    token = user1.token;
+    token = projectOwner.token;
   });
 
   it("should update project", async () => {
     const resProject = await createProject(token);
     expect(resProject.statusCode).toBe(201);
-    console.log(resProject.body.data.project.slug);
     const resUpdateProject = await updateProject(token, resProject.body.data.project.slug);
 
-    console.log(resUpdateProject.body);
     expect(resUpdateProject.statusCode).toBe(200);
+    expect(resUpdateProject.body.data.project.description).toBe("New description");
+  });
+
+  it("should return 403 if not member try update project", async () => {
+    const resProject = await createProject(token);
+    expect(resProject.statusCode).toBe(201);
+    const resUpdateProject = await updateProject(outsiderUser.token, resProject.body.data.project.slug);
+
+    expect(resUpdateProject.statusCode).toBe(403);
+  });
+
+  it("should return 400 if try update project with name empty", async () => {
+    const resProject = await createProject(token);
+    expect(resProject.statusCode).toBe(201);
+    const updateData = {
+      projectData: {
+        name: "",
+        description: "New description",
+      },
+    };
+    const resUpdateProject = await updateProject(token, resProject.body.data.project.slug, updateData);
+
+    expect(resUpdateProject.statusCode).toBe(400);
+  });
+
+  it("should return 400 if projectData is missing", async () => {
+    const resProject = await createProject(token);
+    const res = await updateProject(token, resProject.body.data.project.slug, {} as any);
+    expect(res.statusCode).toBe(400);
+  });
+
+  it("should return 404 if project does not exist", async () => {
+    const res = await updateProject(token, "non-existing-slug");
+    expect(res.statusCode).toBe(404);
   });
 });

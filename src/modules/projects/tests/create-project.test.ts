@@ -8,16 +8,16 @@ jest.mock("@/mail/mail.service");
 
 describe("POST api/projects/", () => {
   let token: string;
-  let user1: { token: string; userId: string };
+  let projectOwner: { token: string; userId: string };
   let user2: { token: string; userId: string };
   let user3: { token: string; userId: string };
 
   beforeEach(async () => {
-    user1 = await prepareUserWithRole("user");
+    projectOwner = await prepareUserWithRole("user");
     user2 = await prepareUserWithRole("user", "2");
     user3 = await prepareUserWithRole("user", "3");
 
-    token = user1.token;
+    token = projectOwner.token;
   });
 
   it("should create new project", async () => {
