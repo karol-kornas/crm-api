@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import { MAIL_FROM } from "@/config";
-import { IUser } from "@/types/user";
+import { IUser } from "@/types/auth/model.type";
 
 interface SendMailOptions {
   to: string;

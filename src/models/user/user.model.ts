@@ -3,8 +3,8 @@ import { userMethods } from "./methods";
 import { userStatics } from "./statics";
 import { userVirtuals } from "./virtuals";
 import { userPreHooks } from "./pre-hooks";
-import { IUser, IUserModel } from "@/types/user";
 import { ROLES, USER_POSITION } from "@/constants/enums";
+import { IUser, IUserModel } from "@/types/auth/model.type";
 
 const userSchemaFields = {
   first_name: {

@@ -7,10 +7,12 @@ export async function registerTestUser(role: Role = "client", id: string = "1") 
   const res = await request(app)
     .post("/api/auth/register")
     .send({
-      first_name: "Test",
-      last_name: "User",
-      email: `test-${id}-${role}@example.com`,
-      password: "Password123!",
+      userData: {
+        first_name: "Test",
+        last_name: "User",
+        email: `test-${id}-${role}@example.com`,
+        password: "Password123!",
+      },
     });
   return res;
 }
@@ -31,10 +33,15 @@ export async function verifyEmailTestUser(
   return res;
 }
 
-export async function loginTestUser(email: string = "test-1-client@example.com", password: string = "Password123!") {
+export async function loginTestUser(
+  email: string = "test-1-client@example.com",
+  password: string = "Password123!"
+) {
   const res = await request(app).post("/api/auth/login").send({
-    email,
-    password,
+    userCredential: {
+      email,
+      password,
+    },
   });
   const cookies = Array.isArray(res.headers["set-cookie"]) ? res.headers["set-cookie"] : [];
   return {
@@ -59,15 +66,19 @@ export async function refreshTokenTestUser(cookies?: string[]) {
 
 export async function requestPasswordReset(email: string) {
   const res = request(app).post("/api/auth/request-password-reset").send({
-    email,
+    userData: {
+      email,
+    },
   });
   return res;
 }
 
 export async function resetPassword(token: string, password: string) {
   const res = request(app).post("/api/auth/reset-password").send({
-    token,
-    password,
+    userData: {
+      token,
+      password,
+    },
   });
   return res;
 }

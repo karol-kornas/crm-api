@@ -1,4 +1,4 @@
-import { IUser, IUserModel } from "@/types/user";
+import { IUser, IUserModel } from "@/types/auth/model.type";
 
 export const userStatics = {
   findByEmail(this: IUserModel, email: string): Promise<IUser | null> {

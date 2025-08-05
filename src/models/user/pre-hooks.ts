@@ -1,6 +1,6 @@
+import { IUser } from "@/types/auth/model.type";
 import bcrypt from "bcrypt";
 import { Schema } from "mongoose";
-import { IUser } from "@/types/user";
 
 export const userPreHooks = (schema: Schema) => {
   schema.pre("save", async function (this: IUser, next) {

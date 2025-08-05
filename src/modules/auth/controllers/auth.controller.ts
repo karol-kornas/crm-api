@@ -1,12 +1,16 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import * as authService from "@/modules/auth/services/auth.service";
 import createError from "http-errors";
 import { REFRESH_TOKEN_EXPIRATION_MS } from "@/config";
 import { messageKeys } from "@/config/message-keys";
+import { LoginResponse, UserResponse } from "@/types/auth/response.type";
+import { LoginBody, RegisterBody, RequestPasswordResetBody, ResetPasswordBody } from "@/types/auth/body.type";
+import { EmptyDataResponse } from "@/types/shared.type";
 
-export const register = async (req: Request, res: Response, next: NextFunction) => {
+export const register: RequestHandler<{}, UserResponse, RegisterBody> = async (req, res, next) => {
   try {
-    const user = await authService.register(req.body);
+    const { userData } = req.body;
+    const user = await authService.register({ userData });
     return res.status(201).json({
       success: true,
       message: messageKeys.AUTH.REGISTER.SUCCESS,
@@ -22,10 +26,14 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-export const verifyEmail = async (req: Request, res: Response, next: NextFunction) => {
-  const token = req.query.token as string;
+export const verifyEmail: RequestHandler<{}, UserResponse, {}, { token: string }> = async (
+  req,
+  res,
+  next
+) => {
+  const { token } = req.query;
   try {
-    const user = await authService.verifyEmail(token);
+    const user = await authService.verifyEmail({ token });
 
     return res.status(200).json({
       success: true,
@@ -42,11 +50,15 @@ export const verifyEmail = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
-export const resendVerifyEmail = async (req: Request, res: Response, next: NextFunction) => {
-  const email = req.query.email as string;
+export const resendVerifyEmail: RequestHandler<{}, UserResponse, {}, { email: string }> = async (
+  req,
+  res,
+  next
+) => {
+  const { email } = req.query;
 
   try {
-    const user = await authService.resendVerifyEmail(email);
+    const user = await authService.resendVerifyEmail({ email });
     return res.status(200).json({
       success: true,
       message: messageKeys.RESEND_VERIFY_EMAIL.SUCCESS,
@@ -62,9 +74,10 @@ export const resendVerifyEmail = async (req: Request, res: Response, next: NextF
   }
 };
 
-export const login = async (req: Request, res: Response, next: NextFunction) => {
+export const login: RequestHandler<{}, LoginResponse, LoginBody> = async (req, res, next) => {
   try {
-    const { accessToken, refreshToken, user } = await authService.login(req.body);
+    const { userCredential } = req.body;
+    const { accessToken, refreshToken, user } = await authService.login({ userCredential });
     res.cookie("refresh_token", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -84,10 +97,11 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
-export const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
-  const token = req.cookies.refresh_token;
+export const refreshToken: RequestHandler<{}, LoginResponse> = async (req, res, next) => {
+  const { refresh_token } = req.cookies as { refresh_token: string };
+
   try {
-    const { accessToken, refreshToken, user } = await authService.refreshToken(token);
+    const { accessToken, refreshToken, user } = await authService.refreshToken({ token: refresh_token });
     res.cookie("refresh_token", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -110,8 +124,8 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
   }
 };
 
-export const logout = async (req: Request, res: Response, next: NextFunction) => {
-  const token = req.cookies.refresh_token;
+export const logout: RequestHandler<{}, EmptyDataResponse> = async (req, res, next) => {
+  const token = req.cookies.refresh_token as string;
   try {
     await authService.logout(token);
 
@@ -134,10 +148,14 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
   }
 };
 
-export const requestPasswordReset = async (req: Request, res: Response, next: NextFunction) => {
-  const { email } = req.body;
+export const requestPasswordReset: RequestHandler<{}, EmptyDataResponse, RequestPasswordResetBody> = async (
+  req,
+  res,
+  next
+) => {
+  const { userData } = req.body;
   try {
-    await authService.requestPasswordReset(email);
+    await authService.requestPasswordReset({ userData });
     return res.status(200).json({
       success: true,
       message: messageKeys.REQUEST_PASSWORD_RESET.SUCCESS,
@@ -151,11 +169,15 @@ export const requestPasswordReset = async (req: Request, res: Response, next: Ne
   }
 };
 
-export const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
-  const { token, password } = req.body;
+export const resetPassword: RequestHandler<{}, EmptyDataResponse, ResetPasswordBody> = async (
+  req,
+  res,
+  next
+) => {
+  const { userData } = req.body;
 
   try {
-    await authService.resetPassword(token, password);
+    await authService.resetPassword({ userData });
 
     return res.status(200).json({
       success: true,

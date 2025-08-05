@@ -5,22 +5,25 @@ import {
   generateResetPasswordToken,
   generateVerificationToken,
 } from "@/modules/auth/utils/tokens.util";
-import { IUser } from "@/types/user";
 import { generateJwt } from "@/modules/auth/utils/jwt.util";
 import createError from "http-errors";
 import { messageKeys } from "@/config/message-keys";
 import { TokenValidator } from "@/utils/token-validator.util";
 import { REQUEST_PASSWORD_RESET_LOCK_MINUTES } from "@/config";
+import { IUser } from "@/types/auth/model.type";
+import {
+  LoginParams,
+  RefreshTokenParams,
+  RegisterParams,
+  RequestPasswordResetParams,
+  ResendVerifyEmailParams,
+  ResetPasswordParams,
+  VerifyEmailParams,
+} from "@/types/auth/params.type";
+import { TokensAndUser } from "@/types/auth/shared.type";
 
-interface RegisterInput {
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string;
-}
-
-export const register = async (input: RegisterInput): Promise<IUser> => {
-  const { first_name, last_name, email, password } = input;
+export const register = async ({ userData }: RegisterParams): Promise<IUser> => {
+  const { first_name, last_name, email, password } = userData;
 
   const existingUser = await User.findByEmail(email);
 
@@ -46,8 +49,12 @@ export const register = async (input: RegisterInput): Promise<IUser> => {
   return user;
 };
 
-export const verifyEmail = async (token: string): Promise<IUser> => {
-  const user = await TokenValidator.validate(token, "email_verification_token", "email_verification_token_expires");
+export const verifyEmail = async ({ token }: VerifyEmailParams): Promise<IUser> => {
+  const user = await TokenValidator.validate(
+    token,
+    "email_verification_token",
+    "email_verification_token_expires"
+  );
 
   user.is_verified = true;
   user.email_verification_token = undefined;
@@ -58,7 +65,7 @@ export const verifyEmail = async (token: string): Promise<IUser> => {
   return user;
 };
 
-export const resendVerifyEmail = async (email: string): Promise<IUser> => {
+export const resendVerifyEmail = async ({ email }: ResendVerifyEmailParams): Promise<IUser> => {
   if (!email) {
     throw createError(400, messageKeys.EMAIL_MISSING);
   }
@@ -85,19 +92,8 @@ export const resendVerifyEmail = async (email: string): Promise<IUser> => {
   return user;
 };
 
-interface LoginInput {
-  email: string;
-  password: string;
-}
-
-interface TokenAndUser {
-  accessToken: string;
-  refreshToken: string;
-  user: IUser;
-}
-
-export const login = async (input: LoginInput): Promise<TokenAndUser> => {
-  const { email, password } = input;
+export const login = async ({ userCredential }: LoginParams): Promise<TokensAndUser> => {
+  const { email, password } = userCredential;
   const user = await User.findByEmail(email);
 
   if (!user) {
@@ -136,7 +132,7 @@ export const login = async (input: LoginInput): Promise<TokenAndUser> => {
   };
 };
 
-export const refreshToken = async (token: string): Promise<TokenAndUser> => {
+export const refreshToken = async ({ token }: RefreshTokenParams): Promise<TokensAndUser> => {
   if (!token) {
     throw createError(401, messageKeys.TOKEN.MISSING);
   }
@@ -170,7 +166,9 @@ export const refreshToken = async (token: string): Promise<TokenAndUser> => {
 
   user.refresh_tokens.push({ refresh_token: newRefreshToken, expires_at: expires });
 
-  user.refresh_tokens = user.refresh_tokens.sort((a, b) => b.expires_at.getTime() - a.expires_at.getTime()).slice(0, 5);
+  user.refresh_tokens = user.refresh_tokens
+    .sort((a, b) => b.expires_at.getTime() - a.expires_at.getTime())
+    .slice(0, 5);
 
   await user.save();
 
@@ -192,7 +190,9 @@ export const logout = async (refreshToken: string): Promise<void> => {
   await user.save();
 };
 
-export const requestPasswordReset = async (email: string): Promise<void> => {
+export const requestPasswordReset = async ({ userData }: RequestPasswordResetParams): Promise<void> => {
+  const { email } = userData;
+
   if (!email) {
     throw createError(400, messageKeys.EMAIL_MISSING);
   }
@@ -207,7 +207,8 @@ export const requestPasswordReset = async (email: string): Promise<void> => {
 
   if (
     user.last_password_reset_requested_at &&
-    now.getTime() - user.last_password_reset_requested_at.getTime() < REQUEST_PASSWORD_RESET_LOCK_MINUTES * 60 * 1000
+    now.getTime() - user.last_password_reset_requested_at.getTime() <
+      REQUEST_PASSWORD_RESET_LOCK_MINUTES * 60 * 1000
   ) {
     throw createError(429, messageKeys.REQUEST_PASSWORD_RESET.TOO_SOON);
   }
@@ -223,7 +224,8 @@ export const requestPasswordReset = async (email: string): Promise<void> => {
   await sendResetPasswordEmail(user);
 };
 
-export const resetPassword = async (token: string, password: string): Promise<void> => {
+export const resetPassword = async ({ userData }: ResetPasswordParams): Promise<void> => {
+  const { token, password } = userData;
   const user = await TokenValidator.validate(token, "password_reset_token", "password_reset_token_expires");
 
   user.password = password;

@@ -1,8 +1,8 @@
 // utils/TokenValidator.ts
 import createError from "http-errors";
 import { messageKeys } from "@/config/message-keys";
-import { IUser } from "@/types/user";
 import { User } from "@/models/user/user.model";
+import { IUser } from "@/types/auth/model.type";
 
 export class TokenValidator {
   static async validate(token: string, tokenField: keyof IUser, expiresField: keyof IUser): Promise<IUser> {

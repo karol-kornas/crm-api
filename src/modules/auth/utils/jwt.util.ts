@@ -1,5 +1,5 @@
 import { JWT_EXPIRES_IN, JWT_SECRET } from "@/config";
-import { IUser } from "@/types/user";
+import { IUser } from "@/types/auth/model.type";
 import jwt from "jsonwebtoken";
 
 export const generateJwt = (user: IUser) => {

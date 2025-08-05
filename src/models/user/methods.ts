@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { ACCOUNT_LOCK_MINUTES, MAX_LOGIN_ATTEMPTS } from "@/config";
-import { IUser } from "@/types/user";
+import { IUser } from "@/types/auth/model.type";
 
 export const userMethods = {
   isAccountLocked(this: IUser): boolean {
