@@ -98,7 +98,7 @@ describe("POST api/projects/", () => {
       projectData: {
         name: "Test project with members",
         description: "description project",
-        deadline: "2030-09-30",
+        deadline: new Date("2030-09-30"),
         tags: ["CRM", "backend"],
         members: [
           {

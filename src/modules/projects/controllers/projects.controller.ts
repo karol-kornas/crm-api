@@ -3,7 +3,7 @@ import * as projectsService from "@/modules/projects/services/projects.service";
 import { messageKeys } from "@/config/message-keys";
 import createError from "http-errors";
 import { DeleteProjectResponse, ProjectResponse } from "@/types/projects/response.type";
-import { ProjectBody, UpdateProjectBody } from "@/types/projects/body.type";
+import { ProjectBody, ProjectUpdateBody } from "@/types/projects/body.type";
 
 export const createProject: RequestHandler<{}, ProjectResponse, ProjectBody> = async (req, res, next) => {
   try {
@@ -25,7 +25,7 @@ export const createProject: RequestHandler<{}, ProjectResponse, ProjectBody> = a
   }
 };
 
-export const updateProject: RequestHandler<{ slug: string }, ProjectResponse, UpdateProjectBody> = async (
+export const updateProject: RequestHandler<{ slug: string }, ProjectResponse, ProjectUpdateBody> = async (
   req,
   res,
   next

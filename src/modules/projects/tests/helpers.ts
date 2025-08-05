@@ -1,12 +1,12 @@
 import request from "supertest";
 import app from "@/app";
 import { ENVIRONMENTS } from "@/constants/enums";
-import { ProjectCredentialInput } from "@/types/projects/input.type";
 import {
   ProjectBody,
   ProjectCredentialBody,
   ProjectMembersBody,
-  UpdateProjectCredentialBody,
+  ProjectCredentialUpdateBody,
+  ProjectUpdateBody,
 } from "@/types/projects/body.type";
 
 export async function createProject(token: string, data?: ProjectBody) {
@@ -14,7 +14,7 @@ export async function createProject(token: string, data?: ProjectBody) {
     projectData: {
       name: "Test project",
       description: "description project",
-      deadline: "2030-09-30",
+      deadline: new Date("2030-09-30"),
       tags: ["CRM", "backend"],
     },
   };
@@ -24,6 +24,24 @@ export async function createProject(token: string, data?: ProjectBody) {
   const res = await request(app)
     .post("/api/projects/")
     .send(projectData)
+    .set("Authorization", `Bearer ${token}`);
+
+  return res;
+}
+
+export async function updateProject(token: string, slug: string, data?: ProjectUpdateBody) {
+  const defaultData = {
+    projectData: {
+      description: "New description",
+      tags: ["CRM", "frontend"],
+    },
+  };
+
+  const projectUpdateData = data ?? defaultData;
+
+  const res = await request(app)
+    .patch(`/api/projects/${slug}`)
+    .send(projectUpdateData)
     .set("Authorization", `Bearer ${token}`);
 
   return res;
@@ -67,7 +85,7 @@ export async function updateCredential(
   token: string,
   projectSlug: string,
   id: string,
-  data?: UpdateProjectCredentialBody
+  data?: ProjectCredentialUpdateBody
 ) {
   const defaultData = {
     credentialData: {

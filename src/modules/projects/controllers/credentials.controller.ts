@@ -1,10 +1,9 @@
-import { NextFunction, Request, RequestHandler, Response } from "express";
+import { RequestHandler } from "express";
 import * as credentialsService from "@/modules/projects/services/credentials.service";
 import { messageKeys } from "@/config/message-keys";
 import createError from "http-errors";
-import { ProjectCredentialInput } from "@/types/projects/input.type";
 import { ProjectCredentialResponse, RemoveProjectCredentialResponse } from "@/types/projects/response.type";
-import { ProjectCredentialBody, UpdateProjectCredentialBody } from "@/types/projects/body.type";
+import { ProjectCredentialBody, ProjectCredentialUpdateBody } from "@/types/projects/body.type";
 
 export const addCredential: RequestHandler<
   { slug: string },
@@ -58,7 +57,7 @@ export const removeCredential: RequestHandler<
 export const updateCredential: RequestHandler<
   { slug: string; id: string },
   ProjectCredentialResponse,
-  UpdateProjectCredentialBody
+  ProjectCredentialUpdateBody
 > = async (req, res, next) => {
   try {
     const { slug, id } = req.params;

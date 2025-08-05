@@ -1,25 +1,22 @@
-import { ProjectMemberInput, ProjectInput, ProjectCredentialInput } from "./input.type";
+import { z } from "zod";
+import { projectSchema, projectUpdateSchema } from "@/modules/projects/validators/project.validator";
+import {
+  projectMembersRemoveSchema,
+  projectMembersSchema,
+} from "@/modules/projects/validators/member.validator";
+import {
+  projectCredentialSchema,
+  projectCredentialUpdateSchema,
+} from "@/modules/projects/validators/credential.validator";
 
-export interface ProjectBody {
-  projectData: ProjectInput;
-}
+export type ProjectBody = z.infer<typeof projectSchema>;
 
-export interface UpdateProjectBody {
-  projectData: Partial<Omit<ProjectInput, "credentials" | "members">>;
-}
+export type ProjectUpdateBody = z.infer<typeof projectUpdateSchema>;
 
-export interface ProjectMembersBody {
-  members: ProjectMemberInput[];
-}
+export type ProjectMembersBody = z.infer<typeof projectMembersSchema>;
 
-export interface RemoveProjectMembersBody {
-  userIds: string[];
-}
+export type RemoveProjectMembersBody = z.infer<typeof projectMembersRemoveSchema>;
 
-export interface ProjectCredentialBody {
-  credentialData: ProjectCredentialInput;
-}
+export type ProjectCredentialBody = z.infer<typeof projectCredentialSchema>;
 
-export interface UpdateProjectCredentialBody {
-  credentialData: Partial<ProjectCredentialInput>;
-}
+export type ProjectCredentialUpdateBody = z.infer<typeof projectCredentialUpdateSchema>;

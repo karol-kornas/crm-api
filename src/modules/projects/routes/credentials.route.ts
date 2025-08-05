@@ -4,7 +4,7 @@ import { validate } from "@/middleware/validate-middleware";
 import { authorizeRoles } from "@/middleware/authorize-role.middleware";
 import { authorizeProjectPermission } from "@/middleware/authorize-project-permission.middleware";
 import { addCredential, removeCredential, updateCredential } from "../controllers/credentials.controller";
-import { credentialProjectSchema, credentialProjectUpdateSchema } from "../validators/credential.validator";
+import { projectCredentialSchema, projectCredentialUpdateSchema } from "../validators/credential.validator";
 
 const router = Router();
 
@@ -13,7 +13,7 @@ router.post(
   authenticate,
   authorizeRoles(["user", "admin"]),
   authorizeProjectPermission("canEditCredentials"),
-  validate(credentialProjectSchema),
+  validate(projectCredentialSchema),
   addCredential
 );
 
@@ -30,7 +30,7 @@ router.patch(
   authenticate,
   authorizeRoles(["user", "admin"]),
   authorizeProjectPermission("canEditCredentials"),
-  validate(credentialProjectUpdateSchema),
+  validate(projectCredentialUpdateSchema),
   updateCredential
 );
 

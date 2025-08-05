@@ -1,29 +1,10 @@
-import type { Environment, UserPosition } from "@/constants/enums";
-import { ProjectPermissions } from "./shared.type";
+import { z } from "zod";
+import { projectMemberInputSchema } from "@/modules/projects/validators/member.validator";
+import { projectInputSchema } from "@/modules/projects/validators/project.validator";
+import { projectCredentialInputSchema } from "@/modules/projects/validators/credential.validator";
 
-export interface ProjectInput {
-  name: string;
-  description?: string;
-  tags?: string[];
-  notes?: string[];
-  deadline?: string | Date;
-  credentials?: ProjectCredentialInput[];
-  members?: ProjectMemberInput[];
-}
+export type ProjectInput = z.infer<typeof projectInputSchema>;
 
-export interface ProjectMemberInput {
-  userId: string;
-  position?: UserPosition;
-  permissions?: ProjectPermissions;
-}
+export type ProjectMemberInput = z.infer<typeof projectMemberInputSchema>;
 
-export interface ProjectCredentialInput {
-  name: string;
-  url?: string;
-  username?: string;
-  password?: string;
-  notes?: string;
-  environment: Environment;
-  created_at?: Date;
-  updated_at?: Date;
-}
+export type ProjectCredentialInput = z.infer<typeof projectCredentialInputSchema>;
