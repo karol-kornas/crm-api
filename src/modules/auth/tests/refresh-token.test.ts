@@ -16,14 +16,14 @@ describe("POST api/auth/refresh-token", () => {
 
     const email = resLogin.body.data.user.email;
     const user = await User.findByEmail(email);
-    const firstToken = user?.refresh_tokens[0].refresh_token;
+    const firstToken = user?.refreshTokens[0].refreshToken;
 
     const resRefresh = await refreshTokenTestUser(cookies);
     const userRefresh = await User.findByEmail(email);
-    const secondToken = userRefresh?.refresh_tokens[0].refresh_token;
+    const secondToken = userRefresh?.refreshTokens[0].refreshToken;
 
-    expect(userRefresh?.refresh_tokens[0].refresh_token).toBeTruthy();
-    expect(userRefresh?.refresh_tokens[0].expires_at.getTime()).toBeGreaterThan(Date.now());
+    expect(userRefresh?.refreshTokens[0].refreshToken).toBeTruthy();
+    expect(userRefresh?.refreshTokens[0].expiresAt.getTime()).toBeGreaterThan(Date.now());
     expect(firstToken !== secondToken).toBeTruthy();
 
     expect(resRefresh.headers["set-cookie"]).toBeDefined();
@@ -54,7 +54,7 @@ describe("POST api/auth/refresh-token", () => {
     const email = resLogin.body.data.user.email;
     const user = await User.findByEmail(email);
     if (user) {
-      user.refresh_tokens[0].refresh_token = "token-not-belong-to-user";
+      user.refreshTokens[0].refreshToken = "token-not-belong-to-user";
       await user.save();
     }
 
@@ -75,7 +75,7 @@ describe("POST api/auth/refresh-token", () => {
     const email = resLogin.body.data.user.email;
     const user = await User.findByEmail(email);
 
-    expect(user?.refresh_tokens[0].expires_at.getTime()).toBeLessThan(Date.now());
+    expect(user?.refreshTokens[0].expiresAt.getTime()).toBeLessThan(Date.now());
 
     const resRefresh = await refreshTokenTestUser(cookies);
 
@@ -95,7 +95,7 @@ describe("POST api/auth/refresh-token", () => {
     const user = await User.findByEmail(email);
     expect(user).not.toBeNull();
     if (user) {
-      user.is_verified = false;
+      user.isVerified = false;
       await user.save();
     }
 

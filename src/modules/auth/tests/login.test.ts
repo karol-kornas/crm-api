@@ -57,7 +57,7 @@ describe("POST api/auth/login", () => {
     const { res: resLogin } = await loginTestUser();
 
     expect(resLogin.body.success).toBe(true);
-    expect(resLogin.body.data.user.login_attempts).toBe(0);
+    expect(resLogin.body.data.user.loginAttempts).toBe(0);
   });
   it("should allow login after account lock expires", async () => {
     const res = await verifyEmailTestUser();

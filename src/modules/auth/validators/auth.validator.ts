@@ -4,8 +4,8 @@ import { emailSchema } from "@/validators/shared/email.validator";
 import { requiredSchema } from "@/validators/shared/required.validator";
 
 export const registerInputSchema = z.object({
-  first_name: requiredSchema,
-  last_name: requiredSchema,
+  firstName: requiredSchema,
+  lastName: requiredSchema,
   email: emailSchema,
   password: passwordSchema,
 });

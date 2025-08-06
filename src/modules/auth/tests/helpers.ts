@@ -8,8 +8,8 @@ export async function registerTestUser(role: Role = "client", id: string = "1") 
     .post("/api/auth/register")
     .send({
       userData: {
-        first_name: "Test",
-        last_name: "User",
+        firstName: "Test",
+        lastName: "User",
         email: `test-${id}-${role}@example.com`,
         password: "Password123!",
       },
@@ -26,7 +26,7 @@ export async function verifyEmailTestUser(
   let token = null;
   if (registerUser) {
     const resRegisterUser = await registerTestUser(role, id);
-    token = resRegisterUser.body.data.user.email_verification_token;
+    token = resRegisterUser.body.data.user.emailVerificationToken;
   }
   const res = await request(app).get(`/api/auth/verify-email?token=${customToken ?? token}`);
 

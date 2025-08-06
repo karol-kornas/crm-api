@@ -15,13 +15,13 @@ describe("GET api/auth/resend-verify-email", () => {
     expect(resendVerifyRes.statusCode).toBe(200);
     expect(resendVerifyRes.body.success).toBe(true);
 
-    const token = resendVerifyRes.body.data?.user.email_verification_token;
+    const token = resendVerifyRes.body.data?.user.emailVerificationToken;
     expect(token).toBeTruthy();
     const verifyRes = await verifyEmailTestUser("client", token!, false);
     expect(verifyRes.statusCode).toBe(200);
     expect(verifyRes.body.success).toBe(true);
 
     const updatedUser = await User.findOne({ email });
-    expect(updatedUser?.is_verified).toBe(true);
+    expect(updatedUser?.isVerified).toBe(true);
   });
 });

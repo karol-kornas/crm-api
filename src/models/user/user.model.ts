@@ -7,12 +7,12 @@ import { ROLES, USER_POSITION } from "@/constants/enums";
 import { IUser, IUserModel } from "@/types/auth/model.type";
 
 const userSchemaFields = {
-  first_name: {
+  firstName: {
     type: String,
     required: true,
     trim: true,
   },
-  last_name: {
+  lastName: {
     type: String,
     required: true,
     trim: true,
@@ -30,7 +30,7 @@ const userSchemaFields = {
     trim: true,
     match: [/^\+?[0-9]{7,15}$/, "Invalid number phone"],
   },
-  profile_picture_url: {
+  profilePictureUrl: {
     type: String,
     trim: true,
   },
@@ -38,37 +38,37 @@ const userSchemaFields = {
     type: String,
     required: true,
   },
-  is_active: {
+  isActive: {
     type: Boolean,
     default: true,
   },
-  is_verified: {
+  isVerified: {
     type: Boolean,
     default: false,
   },
-  email_verification_token: {
+  emailVerificationToken: {
     type: String,
   },
-  email_verification_token_expires: {
+  emailVerificationTokenExpires: {
     type: Date,
   },
-  password_reset_token: {
+  passwordResetToken: {
     type: String,
   },
-  password_reset_token_expires: {
+  passwordResetTokenExpires: {
     type: Date,
   },
-  last_password_reset_requested_at: {
+  lastPasswordResetRequestedAt: {
     type: Date,
   },
-  last_login_at: {
+  lastLoginAt: {
     type: Date,
   },
-  login_attempts: {
+  loginAttempts: {
     type: Number,
     default: 0,
   },
-  locked_until: {
+  lockedUntil: {
     type: Date,
   },
   role: {
@@ -81,16 +81,16 @@ const userSchemaFields = {
     enum: USER_POSITION,
     default: USER_POSITION[0],
   },
-  refresh_tokens: [
+  refreshTokens: [
     {
-      refresh_token: { type: String, required: true },
-      expires_at: { type: Date, required: true },
+      refreshToken: { type: String, required: true },
+      expiresAt: { type: Date, required: true },
     },
   ],
 } as const;
 
 const userSchemaOptions = {
-  timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
+  timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
 };
@@ -108,9 +108,9 @@ UserSchema.methods.toJSON = function (this: IUser) {
   delete obj.__v;
 
   if (process.env.NODE_ENV !== "test") {
-    delete obj.refresh_tokens;
-    delete obj.verification_token;
-    delete obj.verification_token_expires;
+    delete obj.refreshTokens;
+    delete obj.verificationToken;
+    delete obj.verificationTokenExpires;
   }
   return obj;
 };

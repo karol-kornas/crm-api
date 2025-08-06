@@ -1,8 +1,8 @@
 import { Document } from "mongoose";
 import { Types } from "mongoose";
 import type { Environment, ProjectStatus, UserPosition } from "@/constants/enums";
-import { IUser } from "../user";
 import { ProjectPermissions } from "./shared.type";
+import { IUser } from "../auth/model.type";
 
 export interface IProject extends Document {
   name: string;
@@ -16,8 +16,8 @@ export interface IProject extends Document {
   deadline?: Date;
   tags: string[];
   archived: boolean;
-  created_at: Date;
-  updated_at: Date;
+  createdAt: Date;
+  updatedAt: Date;
   attachments: string[];
 }
 
@@ -27,12 +27,12 @@ export interface ICredential {
   url?: string;
   username?: string;
   password?: string;
-  encrypted_password?: string;
+  encryptedPassword?: string;
   notes?: string;
   environment: Environment;
   owner: Types.ObjectId | IUser;
-  created_at?: Date;
-  updated_at?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface IProjectMember extends Document {
@@ -40,6 +40,6 @@ export interface IProjectMember extends Document {
   project: Types.ObjectId | IProject;
   position?: UserPosition;
   permissions: ProjectPermissions;
-  created_at: Date;
-  updated_at: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }

@@ -14,12 +14,12 @@ describe("POST api/auth/logout", () => {
     const email = resLogin.body.data.user.email;
     const user = await User.findByEmail(email);
 
-    expect(user?.refresh_tokens[0].refresh_token).toBeTruthy();
+    expect(user?.refreshTokens[0].refreshToken).toBeTruthy();
 
     const resLogout = await logoutTestUser(cookies);
 
     const userAfterLogout = await User.findByEmail(email);
-    expect(userAfterLogout?.refresh_tokens).toHaveLength(0);
+    expect(userAfterLogout?.refreshTokens).toHaveLength(0);
 
     expect(resLogout.statusCode).toBe(200);
     expect(resLogout.body.success).toBe(true);
@@ -31,7 +31,7 @@ describe("POST api/auth/logout", () => {
     const email = res.body.data.user.email;
     const user = await User.findByEmail(email);
 
-    expect(user?.refresh_tokens).toHaveLength(0);
+    expect(user?.refreshTokens).toHaveLength(0);
 
     const resLogout = await logoutTestUser();
 
@@ -48,15 +48,15 @@ describe("POST api/auth/logout", () => {
     const email = resLogin.body.data.user.email;
     const user = await User.findByEmail(email);
 
-    if (user && user.refresh_tokens.length > 0) {
-      user.refresh_tokens[0].refresh_token = "invalid token";
+    if (user && user.refreshTokens.length > 0) {
+      user.refreshTokens[0].refreshToken = "invalid token";
       await user.save();
     }
 
     const resLogout = await logoutTestUser(cookies);
 
     const userAfterLogout = await User.findByEmail(email);
-    expect(userAfterLogout?.refresh_tokens).toHaveLength(1);
+    expect(userAfterLogout?.refreshTokens).toHaveLength(1);
 
     expect(resLogout.statusCode).toBe(200);
     expect(resLogout.body.success).toBe(true);

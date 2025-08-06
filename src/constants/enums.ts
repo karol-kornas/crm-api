@@ -23,3 +23,11 @@ export const USER_POSITION = [
   "ceo",
 ] as const;
 export type UserPosition = (typeof USER_POSITION)[number];
+
+// Status ticket
+export const TICKET_STATUSES = ["open", "in_progress", "resolved", "closed"] as const;
+export type TicketStatus = (typeof TICKET_STATUSES)[number];
+
+// Priority
+export const PRIORITY = ["low", "medium", "high", "urgent"] as const;
+export type Priority = (typeof TICKET_STATUSES)[number];

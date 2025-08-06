@@ -4,6 +4,7 @@ export const messageKeys = {
   INSUFFICIENT_ROLE: "insufficient_role",
   VALIDATE: {
     FAILED: "validate.failed",
+    INVALID_ID_FORMAT: "validate.invalid_id_format"
   },
   TOKEN: {
     MISSING: "token.missing",
@@ -110,4 +111,10 @@ export const messageKeys = {
     },
     NOT_FOUND: "project_credentials.not_found",
   },
+  TICKET: {
+    CREATE: {
+      SUCCESS: 'ticket.create.success',
+      FAILED: 'ticket.create.failed',
+    }
+  }
 } as const;

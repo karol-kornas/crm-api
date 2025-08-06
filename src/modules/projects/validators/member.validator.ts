@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { requiredSchema } from "@/validators/shared/required.validator";
-import { objectIdRegex, permissionsSchema } from "./helpers";
+import { permissionsSchema } from "./helpers";
+import { objectIdSchema } from "@/validators/shared/object-id.validator";
 
 export const projectMemberInputSchema = z.object({
-  userId: requiredSchema.regex(objectIdRegex, "Invalid userId"),
+  userId: objectIdSchema,
   position: z.string().optional(),
   permissions: permissionsSchema,
 });

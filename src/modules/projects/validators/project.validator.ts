@@ -3,6 +3,7 @@ import { permissionsSchema } from "./helpers";
 import { requiredSchema } from "@/validators/shared/required.validator";
 import { PROJECT_STATUSES } from "@/constants/enums";
 import { projectCredentialInputSchema } from "./credential.validator";
+import { objectIdSchema } from "@/validators/shared/object-id.validator";
 
 export const projectInputSchema = z.object({
   name: requiredSchema,
@@ -15,7 +16,7 @@ export const projectInputSchema = z.object({
   members: z
     .array(
       z.object({
-        userId: z.string(),
+        userId: objectIdSchema,
         position: z.string().optional(),
         permissions: permissionsSchema,
       })

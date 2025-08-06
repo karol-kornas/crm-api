@@ -11,7 +11,7 @@ describe("GET api/auth/verify-email", () => {
     expect(res.statusCode).toBe(200);
 
     const user = await User.findByEmail(res.body.data.user.email);
-    expect(user?.is_verified).toBe(true);
+    expect(user?.isVerified).toBe(true);
   });
 
   it("should return 401 if token is invalid", async () => {
@@ -27,7 +27,7 @@ describe("GET api/auth/verify-email", () => {
     const firstRes = await verifyEmailTestUser();
     expect(firstRes.statusCode).toBe(200);
 
-    const firstResToken = firstRes.body.data.user.email_verification_token;
+    const firstResToken = firstRes.body.data.user.emailVerificationToken;
 
     const secondRes = await verifyEmailTestUser("client", firstResToken, false);
     expect(secondRes.statusCode).toBe(401);

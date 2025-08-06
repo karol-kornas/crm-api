@@ -23,7 +23,7 @@ import {
 import { TokensAndUser } from "@/types/auth/shared.type";
 
 export const register = async ({ userData }: RegisterParams): Promise<IUser> => {
-  const { first_name, last_name, email, password } = userData;
+  const { firstName, lastName, email, password } = userData;
 
   const existingUser = await User.findByEmail(email);
 
@@ -34,12 +34,12 @@ export const register = async ({ userData }: RegisterParams): Promise<IUser> => 
   const { token, expires } = generateVerificationToken();
 
   const user = new User({
-    first_name,
-    last_name,
+    firstName,
+    lastName,
     email,
     password,
-    email_verification_token: token,
-    email_verification_token_expires: expires,
+    emailVerificationToken: token,
+    emailVerificationTokenExpires: expires,
   });
 
   await user.save();
@@ -52,13 +52,13 @@ export const register = async ({ userData }: RegisterParams): Promise<IUser> => 
 export const verifyEmail = async ({ token }: VerifyEmailParams): Promise<IUser> => {
   const user = await TokenValidator.validate(
     token,
-    "email_verification_token",
-    "email_verification_token_expires"
+    "emailVerificationToken",
+    "emailVerificationTokenExpires"
   );
 
-  user.is_verified = true;
-  user.email_verification_token = undefined;
-  user.email_verification_token_expires = undefined;
+  user.isVerified = true;
+  user.emailVerificationToken = undefined;
+  user.emailVerificationTokenExpires = undefined;
 
   await user.save();
 
@@ -76,14 +76,14 @@ export const resendVerifyEmail = async ({ email }: ResendVerifyEmailParams): Pro
     throw createError(401, messageKeys.USER_NOT_FOUND);
   }
 
-  if (user.is_verified) {
+  if (user.isVerified) {
     throw createError(401, messageKeys.USER_ALREADY_VERIFIED);
   }
 
   const { token, expires } = generateVerificationToken();
 
-  user.email_verification_token = token;
-  user.email_verification_token_expires = expires;
+  user.emailVerificationToken = token;
+  user.emailVerificationTokenExpires = expires;
 
   await user.save();
 
@@ -111,17 +111,17 @@ export const login = async ({ userCredential }: LoginParams): Promise<TokensAndU
     throw createError(401, messageKeys.INVALID_CREDENTIALS);
   }
 
-  if (!user.is_verified) {
+  if (!user.isVerified) {
     throw createError(403, messageKeys.USER_NOT_VERIFIED);
   }
 
-  user.last_login_at = new Date();
+  user.lastLoginAt = new Date();
   await user.resetLoginAttempts();
 
   const accessToken = generateJwt(user);
   const { token: refreshToken, expires } = generateRefreshToken();
 
-  user.refresh_tokens.push({ refresh_token: refreshToken, expires_at: expires });
+  user.refreshTokens.push({ refreshToken, expiresAt: expires });
 
   await user.save();
 
@@ -138,14 +138,14 @@ export const refreshToken = async ({ token }: RefreshTokenParams): Promise<Token
   }
 
   const user = await User.findOne({
-    "refresh_tokens.refresh_token": token,
+    "refreshTokens.refreshToken": token,
   });
 
   if (!user) {
     throw createError(401, messageKeys.TOKEN.INVALID);
   }
 
-  if (!user.is_verified) {
+  if (!user.isVerified) {
     throw createError(403, messageKeys.USER_NOT_VERIFIED);
   }
 
@@ -153,21 +153,21 @@ export const refreshToken = async ({ token }: RefreshTokenParams): Promise<Token
     throw createError(403, messageKeys.USER_LOCKED);
   }
 
-  const storedToken = user.refresh_tokens.find((rt) => rt.refresh_token === token);
+  const storedToken = user.refreshTokens.find((rt) => rt.refreshToken === token);
 
-  if (!storedToken || storedToken.expires_at < new Date()) {
+  if (!storedToken || storedToken.expiresAt < new Date()) {
     throw createError(403, messageKeys.TOKEN.EXPIRED);
   }
 
-  user.refresh_tokens = user.refresh_tokens.filter((rt) => rt.refresh_token !== token);
+  user.refreshTokens = user.refreshTokens.filter((rt) => rt.refreshToken !== token);
 
   const accessToken = generateJwt(user);
   const { token: newRefreshToken, expires } = generateRefreshToken();
 
-  user.refresh_tokens.push({ refresh_token: newRefreshToken, expires_at: expires });
+  user.refreshTokens.push({ refreshToken: newRefreshToken, expiresAt: expires });
 
-  user.refresh_tokens = user.refresh_tokens
-    .sort((a, b) => b.expires_at.getTime() - a.expires_at.getTime())
+  user.refreshTokens = user.refreshTokens
+    .sort((a, b) => b.expiresAt.getTime() - a.expiresAt.getTime())
     .slice(0, 5);
 
   await user.save();
@@ -182,10 +182,10 @@ export const refreshToken = async ({ token }: RefreshTokenParams): Promise<Token
 export const logout = async (refreshToken: string): Promise<void> => {
   if (!refreshToken) return;
 
-  const user = await User.findOne({ "refresh_tokens.refresh_token": refreshToken });
+  const user = await User.findOne({ "refreshTokens.refreshToken": refreshToken });
   if (!user) return;
 
-  user.refresh_tokens = user.refresh_tokens.filter((rt) => rt.refresh_token !== refreshToken);
+  user.refreshTokens = user.refreshTokens.filter((rt) => rt.refreshToken !== refreshToken);
 
   await user.save();
 };
@@ -206,8 +206,8 @@ export const requestPasswordReset = async ({ userData }: RequestPasswordResetPar
   const now = new Date();
 
   if (
-    user.last_password_reset_requested_at &&
-    now.getTime() - user.last_password_reset_requested_at.getTime() <
+    user.lastPasswordResetRequestedAt &&
+    now.getTime() - user.lastPasswordResetRequestedAt.getTime() <
       REQUEST_PASSWORD_RESET_LOCK_MINUTES * 60 * 1000
   ) {
     throw createError(429, messageKeys.REQUEST_PASSWORD_RESET.TOO_SOON);
@@ -215,9 +215,9 @@ export const requestPasswordReset = async ({ userData }: RequestPasswordResetPar
 
   const { token, expires } = generateResetPasswordToken();
 
-  user.password_reset_token = token;
-  user.password_reset_token_expires = expires;
-  user.last_password_reset_requested_at = now;
+  user.passwordResetToken = token;
+  user.passwordResetTokenExpires = expires;
+  user.lastPasswordResetRequestedAt = now;
 
   await user.save();
 
@@ -226,11 +226,11 @@ export const requestPasswordReset = async ({ userData }: RequestPasswordResetPar
 
 export const resetPassword = async ({ userData }: ResetPasswordParams): Promise<void> => {
   const { token, password } = userData;
-  const user = await TokenValidator.validate(token, "password_reset_token", "password_reset_token_expires");
+  const user = await TokenValidator.validate(token, "passwordResetToken", "passwordResetTokenExpires");
 
   user.password = password;
-  user.password_reset_token = undefined;
-  user.password_reset_token_expires = undefined;
+  user.passwordResetToken = undefined;
+  user.passwordResetTokenExpires = undefined;
 
   await user.save();
 };

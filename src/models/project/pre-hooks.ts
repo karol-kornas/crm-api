@@ -10,7 +10,7 @@ export const projectPreHooks = (schema: Schema) => {
     try {
       for (const credential of this.credentials) {
         if (credential.password) {
-          credential.encrypted_password = encrypt(credential.password);
+          credential.encryptedPassword = encrypt(credential.password);
           credential.password = undefined;
         }
       }

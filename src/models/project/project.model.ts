@@ -13,7 +13,7 @@ const CredentialSchema = new Schema<ICredential>(
       type: String,
       select: false,
     },
-    encrypted_password: String,
+    encryptedPassword: String,
     notes: String,
     environment: {
       type: String,
@@ -25,7 +25,7 @@ const CredentialSchema = new Schema<ICredential>(
       ref: "User",
     },
   },
-  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+  { timestamps: true }
 );
 
 const projectSchemaFields = {
@@ -78,7 +78,7 @@ const projectSchemaFields = {
 };
 
 const projectSchemaOptions = {
-  timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
+  timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
 };

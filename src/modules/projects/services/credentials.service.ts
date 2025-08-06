@@ -1,6 +1,5 @@
 import { messageKeys } from "@/config/message-keys";
 import { Project } from "@/models/project/project.model";
-import { ProjectCredentialInput } from "@/types/projects/input.type";
 import { ICredential, IProject } from "@/types/projects/model.type";
 import { ProjectCredentialParams, UpdateProjectCredentialParams } from "@/types/projects/params.type";
 import createError from "http-errors";

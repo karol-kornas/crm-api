@@ -26,7 +26,7 @@ const projectMemberSchemaFields = {
 };
 
 const projectMemberSchemaOptions = {
-  timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
+  timestamps: true,
 };
 
 const ProjectMemberSchema = new Schema<IProjectMember>(projectMemberSchemaFields, projectMemberSchemaOptions);

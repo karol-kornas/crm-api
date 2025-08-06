@@ -14,8 +14,8 @@ describe("POST api/auth/reset-password", () => {
     const user = await User.findByEmail(email);
     expect(user).toBeDefined();
     if (user) {
-      const token = user.password_reset_token;
-      const token_expires = user.password_reset_token_expires;
+      const token = user.passwordResetToken;
+      const token_expires = user.passwordResetTokenExpires;
       expect(token).toBeTruthy();
       expect(token_expires).toBeTruthy();
       expect(resRequestPasswordReset.statusCode).toBe(200);

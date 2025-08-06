@@ -66,10 +66,10 @@ export const sendMail = async (options: SendMailOptions) => {
 };
 
 export const sendVerificationEmail = async (user: IUser) => {
-  const verifyUrl = `${process.env.FRONTEND_URL}/verify-email?token=${user.email_verification_token}`;
+  const verifyUrl = `${process.env.FRONTEND_URL}/verify-email?token=${user.emailVerificationToken}`;
 
   const html = `
-    <p>Cześć ${user.first_name},</p>
+    <p>Cześć ${user.firstName},</p>
     <p>Dziękujemy za rejestrację. Kliknij w link poniżej, aby zweryfikować swój adres e-mail:</p>
     <p><a href="${verifyUrl}">Zweryfikuj email</a></p>
     <p>Link wygaśnie za 1 godzinę.</p>
@@ -87,10 +87,10 @@ export const sendVerificationEmail = async (user: IUser) => {
 };
 
 export const sendResetPasswordEmail = async (user: IUser) => {
-  const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${user.password_reset_token}`;
+  const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${user.passwordResetToken}`;
 
   const html = `
-  <p>Cześć ${user.first_name},</p>
+  <p>Cześć ${user.firstName},</p>
   <p>Otrzymaliśmy prośbę o zresetowanie hasła do Twojego konta.</p>
   <p>Kliknij w link poniżej, aby ustawić nowe hasło:</p>
   <p><a href="${resetUrl}">Zresetuj hasło</a></p>

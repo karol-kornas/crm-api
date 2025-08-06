@@ -1,4 +1,5 @@
 import { ENVIRONMENTS } from "@/constants/enums";
+import { objectIdSchema } from "@/validators/shared/object-id.validator";
 import { requiredSchema } from "@/validators/shared/required.validator";
 import { z } from "zod";
 
@@ -9,7 +10,7 @@ export const projectCredentialInputSchema = z.object({
   password: z.string().optional(),
   notes: z.string().optional(),
   environment: z.enum(ENVIRONMENTS),
-  owner: z.string().optional(),
+  owner: objectIdSchema.optional(),
 });
 
 export const projectCredentialSchema = z.object({
