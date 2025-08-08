@@ -4,7 +4,7 @@ export const messageKeys = {
   INSUFFICIENT_ROLE: "insufficient_role",
   VALIDATE: {
     FAILED: "validate.failed",
-    INVALID_ID_FORMAT: "validate.invalid_id_format"
+    INVALID_ID_FORMAT: "validate.invalid_id_format",
   },
   TOKEN: {
     MISSING: "token.missing",
@@ -75,7 +75,8 @@ export const messageKeys = {
       INVALID_REQUEST: "project.permission.invalid_request",
       NOT_A_MEMBER: "project.permission.not_a_member",
       FORBIDDEN: "project.permission.forbidden",
-      FORBIDDEN_MODIFY_FIELDS: "forbidden_modify_fields",
+      FORBIDDEN_MODIFY_FIELDS: "project.permission.forbidden_modify_fields",
+      NOT_ACCESS_TO_ANY_PROJECTS: "project.permission.not_access_to_any_projects",
     },
   },
   PROJECT_MEMBERS: {
@@ -112,9 +113,40 @@ export const messageKeys = {
     NOT_FOUND: "project_credentials.not_found",
   },
   TICKET: {
+    NOT_FOUND: "ticket.not_found",
+    INVALID_ID: "ticket.invalid_id",
     CREATE: {
-      SUCCESS: 'ticket.create.success',
-      FAILED: 'ticket.create.failed',
-    }
-  }
+      SUCCESS: "ticket.create.success",
+      FAILED: "ticket.create.failed",
+    },
+    UPDATE: {
+      SUCCESS: "ticket.update.success",
+      FAILED: "ticket.update.failed",
+    },
+    DELETE: {
+      SUCCESS: "ticket.delete.success",
+      FAILED: "ticket.delete.failed",
+    },
+    GET: {
+      SUCCESS: "ticket.get.success",
+      FAILED: "ticket.get.failed",
+    },
+    PERMISSION: {
+      INVALID_REQUEST: "ticket.permission.invalid_request",
+      NOT_A_MEMBER: "ticket.permission.not_a_member",
+      FORBIDDEN: "ticket.permission.forbidden",
+      FORBIDDEN_MODIFY_FIELDS: "forbidden_modify_fields",
+    },
+  },
+  TICKET_COMMENTS: {
+    ADD: {
+      SUCCESS: "project_comments.add.success",
+      FAILED: "project_comments.add.failed",
+    },
+    REMOVE: {
+      SUCCESS: "project_comments.remove.success",
+      FAILED: "project_comments.remove.failed",
+    },
+    NOT_FOUND: "project_comments.not_found",
+  },
 } as const;

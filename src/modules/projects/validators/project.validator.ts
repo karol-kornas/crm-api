@@ -7,7 +7,7 @@ import { objectIdSchema } from "@/validators/shared/object-id.validator";
 
 export const projectInputSchema = z.object({
   name: requiredSchema,
-  status: z.enum(PROJECT_STATUSES).optional(),
+  status: z.enum(PROJECT_STATUSES).default(PROJECT_STATUSES[0]).optional(),
   description: z.string().optional(),
   tags: z.array(z.string()).optional(),
   notes: z.array(z.string()).optional(),

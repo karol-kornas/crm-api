@@ -48,7 +48,10 @@ const projectSchemaFields = {
     type: [String],
     default: [],
   },
-  credentials: [CredentialSchema],
+  credentials: {
+    type: [CredentialSchema],
+    default: [],
+  },
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -72,7 +75,7 @@ const projectSchemaFields = {
     default: false,
   },
   attachments: {
-    type: [String], // albo ref do kolekcji plików
+    type: [String],
     default: [],
   },
 };

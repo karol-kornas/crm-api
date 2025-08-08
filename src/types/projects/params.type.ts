@@ -1,4 +1,4 @@
-import { ProjectInput, ProjectMemberInput, ProjectCredentialInput } from "./input.type";
+import { ProjectInput, ProjectMemberInput, ProjectCredentialInput, ProjectUpdateInput } from "./input.type";
 
 export interface CreateProjectParams {
   ownerId: string;
@@ -7,7 +7,7 @@ export interface CreateProjectParams {
 
 export interface UpdateProjectParams {
   projectSlug: string;
-  projectData: Partial<Omit<ProjectInput, "credentials" | "members">>;
+  projectData: ProjectUpdateInput;
 }
 
 export interface ProjectMembersParams {

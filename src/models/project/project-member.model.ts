@@ -22,6 +22,7 @@ const projectMemberSchemaFields = {
     canEditProject: { type: Boolean, default: false },
     canEditCredentials: { type: Boolean, default: false },
     canDeleteProject: { type: Boolean, default: false },
+    canEditTickets: { type: Boolean, default: false },
   },
 };
 

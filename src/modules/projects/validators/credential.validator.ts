@@ -9,7 +9,7 @@ export const projectCredentialInputSchema = z.object({
   username: z.string().optional(),
   password: z.string().optional(),
   notes: z.string().optional(),
-  environment: z.enum(ENVIRONMENTS),
+  environment: z.enum(ENVIRONMENTS).default(ENVIRONMENTS[0]).optional(),
   owner: objectIdSchema.optional(),
 });
 

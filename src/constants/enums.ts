@@ -30,4 +30,4 @@ export type TicketStatus = (typeof TICKET_STATUSES)[number];
 
 // Priority
 export const PRIORITY = ["low", "medium", "high", "urgent"] as const;
-export type Priority = (typeof TICKET_STATUSES)[number];
+export type Priority = (typeof PRIORITY)[number];

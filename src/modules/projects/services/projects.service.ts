@@ -30,6 +30,16 @@ export const createProject = async ({ ownerId, projectData }: CreateProjectParam
       owner: ownerId,
       credentials,
     });
+    await ProjectMember.create({
+      user: ownerId,
+      project: project._id,
+      permissions: {
+        canEditCredentials: true,
+        canEditProject: true,
+        canEditTickets: true,
+        canDeleteProject: true,
+      },
+    });
   } catch (err: any) {
     if (err.code === 11000 && err.keyPattern?.slug) {
       throw createError(409, messageKeys.PROJECT.CREATE.NAME_ALREADY_EXISTS);
@@ -50,7 +60,10 @@ export const createProject = async ({ ownerId, projectData }: CreateProjectParam
 };
 
 export const updateProject = async ({ projectSlug, projectData }: UpdateProjectParams) => {
-  const project = await Project.findOneAndUpdate({ slug: projectSlug }, projectData, { new: true });
+  const project = await Project.findOneAndUpdate({ slug: projectSlug }, projectData, {
+    new: true,
+    runValidators: true,
+  });
 
   if (!project) {
     throw createError(404, messageKeys.PROJECT.NOT_FOUND);

@@ -12,12 +12,12 @@ export interface IProject extends Document {
   credentials: ICredential[];
   owner: Types.ObjectId | IUser;
   members?: IProjectMember[];
-  status: ProjectStatus;
+  status?: ProjectStatus;
   deadline?: Date;
   tags: string[];
   archived: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   attachments: string[];
 }
 
@@ -29,7 +29,7 @@ export interface ICredential {
   password?: string;
   encryptedPassword?: string;
   notes?: string;
-  environment: Environment;
+  environment?: Environment;
   owner: Types.ObjectId | IUser;
   createdAt?: Date;
   updatedAt?: Date;
@@ -40,6 +40,6 @@ export interface IProjectMember extends Document {
   project: Types.ObjectId | IProject;
   position?: UserPosition;
   permissions: ProjectPermissions;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

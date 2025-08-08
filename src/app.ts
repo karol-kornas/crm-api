@@ -4,6 +4,7 @@ import authRoutes from "./modules/auth/routes/auth.route";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "./middleware/error-middleware";
 import projectsRoutes from "./modules/projects/routes/index.route";
+import ticketsRoutes from "./modules/tickets/routes/index.route";
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectsRoutes);
+app.use("/api/tickets", ticketsRoutes);
 app.use(errorHandler);
 
 export default app;

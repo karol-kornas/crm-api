@@ -21,7 +21,7 @@ export const addCredential = async ({ ownerId, projectSlug, credentialData }: Pr
 
   await project.save();
 
-  return project.credentials[0];
+  return project.credentials[project.credentials.length - 1];
 };
 
 export const removeCredential = async (projectSlug: string, credentialId: string) => {
