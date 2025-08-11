@@ -112,6 +112,24 @@ export async function addMembers(token: string, projectSlug: string, data: Proje
   return res;
 }
 
+export async function getProjects(token: string, query?: string) {
+  const res = await request(app).get(`/api/projects?${query}`).set("Authorization", `Bearer ${token}`);
+
+  return res;
+}
+
+export async function getProject(token: string, projectId: string) {
+  const res = await request(app).get(`/api/projects/${projectId}`).set("Authorization", `Bearer ${token}`);
+
+  return res;
+}
+
+export async function getProjectsMinimal(token: string) {
+  const res = await request(app).get("/api/projects/minimal").set("Authorization", `Bearer ${token}`);
+
+  return res;
+}
+
 export async function setMembers(token: string, projectSlug: string, data: ProjectMembersBody) {
   const res = await request(app)
     .put(`/api/projects/${projectSlug}/members`)

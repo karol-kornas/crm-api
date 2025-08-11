@@ -24,8 +24,19 @@ export interface GetTicketsParams {
   order?: "asc" | "desc";
 }
 
+export interface GetTicketParams {
+  ticketId: string;
+  userId: string;
+  userRole: string;
+}
+
 export interface AddTicketCommentParams {
   ticketId: string;
   authorId: string;
   commentData: TicketCommentInput;
+}
+
+export interface RemoveTicketCommentParams {
+  ticketId: string;
+  commentId: string;
 }

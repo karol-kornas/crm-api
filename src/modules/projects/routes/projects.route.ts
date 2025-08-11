@@ -1,6 +1,13 @@
 import { authenticate } from "@/middleware/auth.middleware";
 import { Router } from "express";
-import { createProject, updateProject, deleteProject } from "../controllers/projects.controller";
+import {
+  createProject,
+  updateProject,
+  deleteProject,
+  getProjects,
+  getProject,
+  getProjectsMinimal,
+} from "../controllers/projects.controller";
 import { projectSchema, projectUpdateSchema } from "../validators/project.validator";
 import { validate } from "@/middleware/validate-middleware";
 import { authorizeRoles } from "@/middleware/authorize-role.middleware";
@@ -28,5 +35,9 @@ router.delete(
   authorizeProjectPermission("canDeleteProject"),
   deleteProject
 );
+
+router.get("/", authenticate, getProjects);
+router.get("/minimal", authenticate, getProjectsMinimal);
+router.get("/:id", authenticate, getProject);
 
 export default router;

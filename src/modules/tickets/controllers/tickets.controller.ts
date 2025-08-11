@@ -1,6 +1,11 @@
 import { messageKeys } from "@/config/message-keys";
 import { TicketBody, TicketUpdateBody } from "@/types/ticktes/body.type";
-import { DeleteTicketResponse, GetTicketsResponse, TicketResponse } from "@/types/ticktes/response.type";
+import {
+  DeleteTicketResponse,
+  GetTicketResponse,
+  GetTicketsResponse,
+  TicketResponse,
+} from "@/types/ticktes/response.type";
 import { RequestHandler } from "express";
 import createError from "http-errors";
 import * as ticketsService from "@/modules/tickets/services/tickets.service";
@@ -115,6 +120,28 @@ export const getTickets: RequestHandler<{}, GetTicketsResponse, {}, GetTicketsQu
         order: result.order,
         projectId: result.projectId,
         status: result.status,
+      },
+    });
+  } catch (err: any) {
+    if (!err.status) {
+      return next(createError(500, messageKeys.TICKET.GET.FAILED));
+    }
+    next(err);
+  }
+};
+
+export const getTicket: RequestHandler<{ id: string }, GetTicketResponse> = async (req, res, next) => {
+  try {
+    const userId = req.user!.id;
+    const userRole = req.user!.role;
+    const { id } = req.params;
+
+    const ticket = await ticketsService.getTicket({ ticketId: id, userId, userRole });
+    return res.status(200).json({
+      success: true,
+      message: messageKeys.TICKET.GET.SUCCESS,
+      data: {
+        ticket,
       },
     });
   } catch (err: any) {

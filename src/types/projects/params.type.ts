@@ -1,3 +1,4 @@
+import { ProjectStatus } from "@/constants/enums";
 import { ProjectInput, ProjectMemberInput, ProjectCredentialInput, ProjectUpdateInput } from "./input.type";
 
 export interface CreateProjectParams {
@@ -30,4 +31,27 @@ export interface UpdateProjectCredentialParams {
   credentialId: string;
   projectSlug: string;
   credentialData: Partial<ProjectCredentialInput>;
+}
+
+export interface GetProjectsParams {
+  userId: string;
+  userRole: string;
+  projectId?: string;
+  status?: ProjectStatus;
+  owner?: string;
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  order?: "asc" | "desc";
+}
+
+export interface GetProjectParams {
+  projectId: string;
+  userId: string;
+  userRole: string;
+}
+
+export interface GetProjectsMinimalParams {
+  userId: string;
+  userRole: string;
 }

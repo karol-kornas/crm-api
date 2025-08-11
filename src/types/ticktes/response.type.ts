@@ -33,10 +33,26 @@ export interface GetTicketsResponse {
   };
 }
 
+export interface GetTicketResponse {
+  success: boolean;
+  message: string;
+  data: {
+    ticket: ITicket;
+  };
+}
+
 export interface TicketCommentResponse {
   success: boolean;
   message: string;
   data: {
     comment: ITicketComment;
+  };
+}
+
+export interface RemoveTicketCommentResponse {
+  success: boolean;
+  message: string;
+  data: {
+    removedComment: ITicketComment;
   };
 }

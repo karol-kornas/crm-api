@@ -71,6 +71,14 @@ export const messageKeys = {
       SUCCESS: "project.update.success",
       FAILED: "project.update.failed",
     },
+    GET: {
+      ALL: {
+        SUCCESS: "project.get.all.success",
+        FAILED: "project.get.all.failed",
+      },
+      SUCCESS: "project.get.success",
+      FAILED: "project.get.failed",
+    },
     PERMISSION: {
       INVALID_REQUEST: "project.permission.invalid_request",
       NOT_A_MEMBER: "project.permission.not_a_member",
@@ -128,6 +136,10 @@ export const messageKeys = {
       FAILED: "ticket.delete.failed",
     },
     GET: {
+      ALL: {
+        SUCCESS: "ticket.get.all.success",
+        FAILED: "ticket.get.all.failed",
+      },
       SUCCESS: "ticket.get.success",
       FAILED: "ticket.get.failed",
     },

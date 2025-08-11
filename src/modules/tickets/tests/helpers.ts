@@ -50,6 +50,12 @@ export async function getTickets(token: string, query?: string) {
   return res;
 }
 
+export async function getTicket(token: string, ticketId: string) {
+  const res = await request(app).get(`/api/tickets/${ticketId}`).set("Authorization", `Bearer ${token}`);
+
+  return res;
+}
+
 export async function addComment(token: string, ticketId: string, data?: TicketCommentBody) {
   const defaultData: TicketCommentBody = {
     commentData: {
@@ -61,6 +67,14 @@ export async function addComment(token: string, ticketId: string, data?: TicketC
   const res = await request(app)
     .post(`/api/tickets/${ticketId}/comments`)
     .send(commentData)
+    .set("Authorization", `Bearer ${token}`);
+
+  return res;
+}
+
+export async function removeComment(token: string, ticketId: string, commentId: string) {
+  const res = await request(app)
+    .delete(`/api/tickets/${ticketId}/comments/${commentId}`)
     .set("Authorization", `Bearer ${token}`);
 
   return res;

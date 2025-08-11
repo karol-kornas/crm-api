@@ -1,16 +1,16 @@
 import { prepareUserWithRole } from "@/modules/auth/tests/helpers";
 import { createProject } from "@/modules/projects/tests/helpers";
-import { addComment, createTicket } from "./helpers";
+import { createTicket, getTickets } from "./helpers";
+import { TicketBody } from "@/types/ticktes/body.type";
 
 jest.mock("@/mail/mail.service");
 
-describe("POST api/tickets/:id/comments", () => {
+describe("GET api/tickets", () => {
   let token: string;
   let projectOwner: { token: string; userId: string };
   let user2: { token: string; userId: string };
   let projectId: string;
   let projectSlug: string;
-  let ticketId: string;
 
   beforeEach(async () => {
     projectOwner = await prepareUserWithRole("user");
@@ -22,16 +22,23 @@ describe("POST api/tickets/:id/comments", () => {
     projectSlug = resProject.body.data.project.slug;
 
     const resTicket = await createTicket(token, projectId, projectSlug);
-    ticketId = resTicket.body.data.ticket._id;
+
+    const ticketData2: TicketBody = {
+      ticketData: {
+        title: "New ticket 2",
+        description: "Description ticket",
+        projectId,
+      },
+    };
+    const resTicket2 = await createTicket(token, projectId, projectSlug, ticketData2);
   });
 
-  it("should add ticket comment", async () => {
-    const resComment = await addComment(token, ticketId);
-    expect(resComment.statusCode).toBe(201);
+  it("should return tickets", async () => {
+    const res = await getTickets(token);
+    expect(res.statusCode).toBe(200);
   });
-
-  it("should 403 if user not member project", async () => {
-    const resComment = await addComment(user2.token, ticketId);
-    expect(resComment.statusCode).toBe(403);
+  it("should return 403 if tickets not member project", async () => {
+    const res = await getTickets(user2.token);
+    expect(res.statusCode).toBe(403);
   });
 });
